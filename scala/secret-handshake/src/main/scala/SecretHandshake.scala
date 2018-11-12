@@ -1,7 +1,26 @@
 object SecretHandshake {
 
-  // more versatile solution
+  // Solution 1: solution using recursion
+  def nextCommand(cmds: List[String], bin: List[Char]): List[String] = bin match {
+    case head :: tail => 
+      if (bin(0) == '1') List(cmds.head) ++ nextCommand(cmds.tail, tail) else nextCommand(cmds.tail, tail)
+    case Nil =>
+      List()
+  }
+
   def commands(n: Int): List[String] = {
+    val ops = List("wink", "double blink", "close your eyes", "jump", "reverse")
+    val bin = n.toBinaryString.toList.reverse
+   
+    val output = nextCommand(ops, bin)
+    if (output.contains("reverse"))
+      output.filterNot(_ == "reverse").reverse
+    else
+      output
+  }
+
+  // Solution 2: functional solution
+  def commandsFunctional(n: Int): List[String] = {
     val ops = List("wink", "double blink", "close your eyes", "jump", "reverse")
     val bin = n.toBinaryString.toSeq.reverse
 
@@ -13,7 +32,7 @@ object SecretHandshake {
       output
   }
 
-  // simpler solution
+  // Solution 3: Simple solution
   def commandsSimple(n: Int): List[String] = {
     var ops: List[String] = List()
     
